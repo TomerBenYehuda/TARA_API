@@ -35,7 +35,26 @@ class KnessetModel(db.Model):
 
 
 resource_fields = {
-    'id': fields.String
+    'member_id': fields.Integer,
+    'member_name': fields.String,
+    'party': fields.String,
+    'gov_role': fields.String,
+    'knesset_role': fields.String,
+    'party_role': fields.String,
+    'personal_phone': fields.Integer,
+    'office_phone': fields.Integer,
+    'email':fields.String,
+    'speaker_name': fields.String,
+    'speaker_phone': fields.Integer,
+    'head_office_name': fields.String,
+    'head_office_phone': fields.Integer,
+    'political_consultant_name': fields.String,
+    'political_consultant_phone': fields.Integer,
+    'update_date': fields.DateTime,
+    'facebook': fields.String,
+    'instagram': fields.String,
+    'twitter': fields.String,
+    'picture': fields.Url
 }
 
 
