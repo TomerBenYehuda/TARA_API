@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
+import pandas as pd
 
 app = Flask(__name__)
 api = Api(app)
@@ -24,14 +25,11 @@ class KnessetModel(db.Model):
     head_office_phone = db.Column(db.Integer())
     political_consultant_name = db.Column(db.String(100))
     political_consultant_phone = db.Column(db.Integer())
-    update_date = db.Column(db.Date())
-    facebook = db.Column(db.String(255))
-    instagram = db.Column(db.String(255))
-    twitter = db.Column(db.String(255))
-    picture = db.Column(db.String(255))
-
-    def __repr__(self):
-        return f"name is {self.member_name}, my ID is {self.member_id}"
+    # update_date = db.Column(db.Date())
+    # facebook = db.Column(db.String(255))
+    # instagram = db.Column(db.String(255))
+    # twitter = db.Column(db.String(255))
+    # picture = db.Column(db.String(255))
 
 
 resource_fields = {
@@ -43,7 +41,7 @@ resource_fields = {
     'party_role': fields.String,
     'personal_phone': fields.Integer,
     'office_phone': fields.Integer,
-    'email':fields.String,
+    'email': fields.String,
     'speaker_name': fields.String,
     'speaker_phone': fields.Integer,
     'head_office_name': fields.String,
@@ -70,4 +68,6 @@ class Server(Resource):
 api.add_resource(Server)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    raw_file = pd.read_csv("C:/Users/Gil/PycharmProjects/TARA_API/coalition.csv")
+    print(raw_file)
+    # app.run(debug=True)
