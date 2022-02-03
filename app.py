@@ -87,9 +87,10 @@ class Server(Resource):
         return result
 
     @marshal_with(resource_fields)
-    def post(self):
+    def post(self, member_id):
         args = knesset_member_put_args.parse_args()
-        member = KnessetModel()
+        # Contintue..
+        member = KnessetModel(member_id=member_id, member_name=args['member_name'])
 
 
 api.add_resource(Server, "/server/<int:member_id>")
