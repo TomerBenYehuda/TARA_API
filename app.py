@@ -78,24 +78,41 @@ knesset_member_put_args.add_argument("picture", type=str, help="Put Picture URL"
 class Server(Resource):
     @marshal_with(resource_fields)
     def get_by_id(self, member_id):
-        result = KnessetModel.query.get(member_id)
+        result = KnessetModel.query.filter_by(member_id).first()
         return result
 
     @marshal_with(resource_fields)
-    def get_full_name(self, full_name):
-        result = KnessetModel.query.get(full_name)
+    def get_by_full_name(self, full_name):
+        result = KnessetModel.query.filter_by(full_name).first()
         return result
 
     @marshal_with(resource_fields)
-    def post(self, member_id):
+    def post(self):
         args = knesset_member_put_args.parse_args()
-        # Contintue..
-        member = KnessetModel(member_id=member_id, member_name=args['member_name'])
+        member = KnessetModel(member_id=args['member_id'],
+                              member_name=args['member_name'],
+                              party=args['party'],
+                              gov_role=args['gov_role'],
+                              knesset_role=args['knesset_role'],
+                              party_role=args['party_role'],
+                              personal_phone=args['personal_phone'],
+                              office_phone=args['office_phone'],
+                              email=args['email'],
+                              speaker_name=args['speaker_name'],
+                              speaker_phone=args['speaker_phone'],
+                              head_office_name=args['head_office_name'],
+                              head_office_phone=args['head_office_phone'],
+                              political_consultant_name=args['political_consultant_name'],
+                              political_consultant_phone=args['political_consultant_phone'],
+                              picture=args['picture'])
+        if member:
+            abort(409, message='Member ID taken...')
+        db.session.add(member)
+        db.session.commit()
+        return member, 201
 
 
-api.add_resource(Server, "/server/<int:member_id>")
+api.add_resource(Server, "/Member/<int:member_id>")
 
 if __name__ == "__main__":
-    # raw_file = pd.read_csv("C:/Users/Gil/PycharmProjects/TARA_API/coalition.csv")
-    # print(raw_file)
     app.run(debug=True)
